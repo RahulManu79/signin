@@ -41,7 +41,7 @@ const values=[
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(req.session.login){
-    res.render('home',{values})
+    res.redirect('/home')
   }else{
     res.render('index',{"error" : req.session.loginError})
     req.session.loginError = false;
@@ -50,11 +50,11 @@ router.get('/', function(req, res, next) {
 
   
 router.get('/home',function(req,res){
-    if(req.session?.login){
+    if(req.session.login){
      res.render('home',{values})
     }
     else{
-      res.render('index',{display:"d-none"})
+      res.redirect('/')
     }
 
   })
@@ -68,7 +68,7 @@ const {email,password}=req.body;
 
 if (email===emaildb && password===passworddb){
   req.session.login=true;
-  res.render('home',{values})
+  res.redirect('/home')
 }else{
   req.session.loginError = true
   res.redirect('/')
