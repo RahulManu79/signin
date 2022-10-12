@@ -1,17 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
 
-  res.render('index',{display:"d-none"});
-});
-const emaildb = 'rahul@gmail.com'
-const passworddb ='1234'
-router.post('/', function(req, res, next) {
-
-// home page loop
- const values=[
+const values=[
   {title:'Samsung a30s',
    Image:'https://saurabhelectronics.com/pub/media/catalog/product/cache/9d08971813a040f8f96067a40f75c615/s/a/sa30s12842.jpg' ,
    discription:'amsung Galaxy A30s Android smartphone. Announced Aug 2019. Features 6.4″ display, Exynos 7904 chipset, 4000 mAh battery, 128 GB storage, 4 GB RAM.Internal: 32GB 3GB RAM, 64GB 4GB RAM, 12mp Main Camera'
@@ -47,13 +38,46 @@ router.post('/', function(req, res, next) {
    },
    
  ]
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  if(req.session.login){
+    res.render('home',{values})
+  }else{
+    res.render('index',{"error" : req.session.loginError})
+    req.session.loginError = false;
+  }
+});
+
+  
+router.get('/home',function(req,res){
+    if(req.session?.login){
+     res.render('home',{values})
+    }
+    else{
+      res.render('index',{display:"d-none"})
+    }
+
+  })
+
+const emaildb = 'rahul@gmail.com'
+const passworddb ='1234'
+
+router.post('/', function(req, res, next) {
 
 const {email,password}=req.body;
 
 if (email===emaildb && password===passworddb){
-  res.render-('home',{values})
-}else
- res.render('index',{display:""})
+  req.session.login=true;
+  res.render('home',{values})
+}else{
+  req.session.loginError = true
+  res.redirect('/')
+}
+
  
 });
+router.get('/logout',(req,res)=>{
+  req.session.destroy();
+ res.redirect('/');
+})
 module.exports = router;

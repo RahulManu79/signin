@@ -13,9 +13,11 @@
   <div class="main">
     <p class="sign" align="center">Sign in</p>
     <form class="form1" action="/" method="post">
-    <div class="alert alert-danger {{display}}" role="alert">
+    {{#if error}}
+    <div class="alert alert-danger" role="alert">
       Invalied Username or password! please try again...
     </div>
+    {{/if}}
       <input class="un " type="text" align="center" placeholder="Username" name="email">
       <input class="pass" type="password" align="center" placeholder="Password" name="password"><br>
       <input style="    background-color: rgb(200 0 255);
