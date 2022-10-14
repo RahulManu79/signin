@@ -43,7 +43,7 @@ router.get('/', function(req, res, next) {
   if(req.session.login){
     res.redirect('/home')
   }else{
-    res.render('index',{"error" : req.session.loginError})
+    res.render('index',{ "error" : req.session.loginError })
     req.session.loginError = false;
   }
 });
